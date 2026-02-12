@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/quizdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=yourpassword
+      - SPRING_AI_OLLAMA_BASEURL=http://host.docker.internal:11434  # For local Ollama
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: quizdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
+    command: -c 'shared_preload_libraries=pgvector'
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
