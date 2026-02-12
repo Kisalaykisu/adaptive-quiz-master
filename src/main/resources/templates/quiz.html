@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Take Quiz</title>
+    <script>
+        let token = 'your-jwt-here'; // Paste from login
+        function startQuiz() {
+            let topic = document.getElementById('topic').value;
+            fetch(`/api/quizzes/start?topic=${topic}`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).then(res => res.json()).then(data => {
+                document.getElementById('question').innerText = data.firstQuestion.text;
+                // Store quizId
+            });
+        }
+        function submitAnswer() {
+            // Similar fetch to /answer
+        }
+    </script>
+</head>
+<body>
+<h1>Quiz</h1>
+Topic: <input id="topic"/>
+<button onclick="startQuiz()">Start</button>
+<div id="question"></div>
+Answer: <textarea id="answer"></textarea>
+<button onclick="submitAnswer()">Submit</button>
+<div id="feedback"></div>
+</body>
+</html>
