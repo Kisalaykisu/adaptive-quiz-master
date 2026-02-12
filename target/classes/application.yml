@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: adaptive-quiz-master
+  datasource:
+    url: jdbc:postgresql://localhost:5432/quizdb
+    username: postgres
+    password: yourpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.2:3b
+        options:
+          temperature: 0.7
+      embedding:
+        model: nomic-embed-text
+  security:
+    jwt:
+      secret: your-jwt-secret-key-very-long-and-secure  # Change to unique!
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true

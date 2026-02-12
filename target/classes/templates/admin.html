@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <script>
+        let token = 'your-jwt-here';
+        function generateQuestion() {
+            let topic = document.getElementById('topic').value;
+            let difficulty = document.getElementById('difficulty').value;
+            fetch('/api/admin/generate-question', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({topic, difficulty})
+            }).then(res => res.json()).then(data => {
+                document.getElementById('generated').innerText = data.text;
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>Teacher Admin</h1>
+Topic: <input id="topic"/><br/>
+Difficulty: <select id="difficulty">
+    <option>easy</option>
+    <option>medium</option>
+    <option>hard</option>
+</select><br/>
+<button onclick="generateQuestion()">Generate AI Question</button>
+<div id="generated"></div>
+</body>
+</html>
